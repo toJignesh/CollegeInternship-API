@@ -7,6 +7,7 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using CollegeInternship_API.Contexts;
 
 namespace CollegeInternship_API
 {
@@ -14,7 +15,9 @@ namespace CollegeInternship_API
     {
         public static void Main(string[] args)
         {
-            BuildWebHost(args).Run();
+            BuildWebHost(args)
+                .SeedData()
+                .Run();
         }
 
         public static IWebHost BuildWebHost(string[] args) =>
