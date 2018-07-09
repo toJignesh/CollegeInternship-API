@@ -1,4 +1,5 @@
 ﻿using CollegeInternship_API.Context;
+using CollegeInternship_API.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
@@ -17,6 +18,9 @@ namespace CollegeInternship_API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get() => Ok( await this.context.Candidates.ToListAsync());
+        public async Task<IActionResult> Get() => Ok(await this.context.Candidates.Include(c => c.CandidateSkills).ToListAsync());
+
+        
+
     }
 }

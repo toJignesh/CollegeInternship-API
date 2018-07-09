@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json.Serialization;
 
 namespace CollegeInternship_API
 {
@@ -25,7 +26,12 @@ namespace CollegeInternship_API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
+            services.AddMvc()
+                .AddJsonOptions(o =>
+                                {
+                                    o.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                                    o.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+                                });
 
             services.AddDbContext<ApplicationDbContext>(options =>
             {
@@ -49,7 +55,7 @@ namespace CollegeInternship_API
 
 
             app.UseSwagger();
-            app.UseSwaggerUI(c=>
+            app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My Api V1");
             });
