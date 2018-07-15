@@ -21,7 +21,7 @@ namespace CollegeInternship_API.Models
         [Required]
         public bool IsActive { get; set; }
 
-        public ICollection<CandidateSkill> CandidateSkills { get; set; }
-        public ICollection<JobSkill> JobSkills { get; set; }
+        public virtual ICollection<CandidateSkill> CandidateSkills { get; set; }
+        public virtual ICollection<JobSkill> JobSkills { get; set; }
     }
 }

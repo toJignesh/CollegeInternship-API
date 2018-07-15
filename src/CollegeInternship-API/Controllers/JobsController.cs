@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
+using System.Linq;
+using CollegeInternship_API.Models;
 
 namespace CollegeInternship_API.Controllers
 {
@@ -17,6 +19,26 @@ namespace CollegeInternship_API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get() => Ok(await this.context.Jobs.ToListAsync());
+        public async Task<IActionResult> Get()
+        {
+            var a = await context.Jobs.ToListAsync();
+            return Ok(a);
+        }
+
+        [HttpGet]
+        [Route("{id}/skills")]
+        public async Task<IActionResult> GetJobSkills(int id)
+        {
+            Job job = await this.context.Jobs.Include(j => j.JobSkills).FirstOrDefaultAsync(j => j.Id == id);
+
+            if (job == null)
+            {
+                return NotFound();
+            }
+
+            int[] jobSkills = job.JobSkills.Select(s => s.SkillId).ToArray();
+            return Ok(await this.context.Skills.Where(s => jobSkills.Contains(s.Id)).Select(s=> new { id= s.Id, name=s.Name}).ToListAsync());
+        }
+
     }
 }
