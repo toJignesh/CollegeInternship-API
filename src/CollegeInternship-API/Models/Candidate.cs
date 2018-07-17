@@ -52,6 +52,12 @@ namespace CollegeInternship_API.Models
         [Required]
         public int Status { get; set; }
 
+        [Required]
+        public double Longitude { get; set; }
+
+        [Required]
+        public double Latitude { get; set; }
+
         public ICollection<CandidateSkill> CandidateSkills{ get; set; }
     }
 }

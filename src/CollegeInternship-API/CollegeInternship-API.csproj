@@ -5,6 +5,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20180717013507_longitude-latitude.cs" />
+    <Compile Remove="Migrations\20180717013507_longitude-latitude.Designer.cs" />
+    <Compile Remove="Migrations\20180717014453_longitude-latitude-prevision.cs" />
+    <Compile Remove="Migrations\20180717014453_longitude-latitude-prevision.Designer.cs" />
+    <Compile Remove="Migrations\20180717015146_longitude-latitude-double-prevision.cs" />
+    <Compile Remove="Migrations\20180717015146_longitude-latitude-double-prevision.Designer.cs" />
+    <Compile Remove="Migrations\20180717020325_longitude-latitude-double-precision.cs" />
+    <Compile Remove="Migrations\20180717020325_longitude-latitude-double-precision.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="wwwroot\" />
   </ItemGroup>
 
@@ -13,6 +24,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Cors" Version="2.1.1" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.3" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="3.0.0" />
+    <PackageReference Include="System.Device.Location.Portable" Version="1.0.0" />
   </ItemGroup>
 
   <ItemGroup>

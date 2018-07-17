@@ -19,6 +19,12 @@ namespace CollegeInternship_API.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            //modelBuilder.Entity<Candidate>().Property(c => c.Longitude).HasColumnType("double(15,7)");
+            //modelBuilder.Entity<Candidate>().Property(c => c.Latitude).HasColumnType("double(15,7)");
+
+            //modelBuilder.Entity<Job>().Property(j => j.Longitude).HasColumnType("double(15,7)");
+            //modelBuilder.Entity<Job>().Property(j => j.Latitude).HasColumnType("double(15,7)");
+
             modelBuilder.Entity<CandidateSkill>()
                 .HasKey(cs => new { cs.CandidateId, cs.SkillId });
 

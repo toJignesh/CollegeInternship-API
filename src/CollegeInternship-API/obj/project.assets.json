@@ -3626,6 +3626,15 @@
           }
         }
       },
+      "System.Device.Location.Portable/1.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/System.Device.Portable.dll": {}
+        },
+        "runtime": {
+          "lib/System.Device.Portable.dll": {}
+        }
+      },
       "System.Diagnostics.Contracts/4.3.0": {
         "type": "package",
         "dependencies": {
@@ -9402,6 +9411,16 @@
         "version.txt"
       ]
     },
+    "System.Device.Location.Portable/1.0.0": {
+      "sha512": "VttxozXEleYcK2NiMo7xKMhDCCJbKtjnxcWDmqu703DeceLTI/9jopfEblyZKL0DWHGyOYLEan06yk6Hcv2cXw==",
+      "type": "package",
+      "path": "system.device.location.portable/1.0.0",
+      "files": [
+        "lib/System.Device.Portable.dll",
+        "system.device.location.portable.1.0.0.nupkg.sha512",
+        "system.device.location.portable.nuspec"
+      ]
+    },
     "System.Diagnostics.Contracts/4.3.0": {
       "sha512": "eelRRbnm+OloiQvp9CXS0ixjNQldjjkHO4iIkR5XH2VIP8sUB/SIpa1TdUW6/+HDcQ+MlhP3pNa1u5SbzYuWGA==",
       "type": "package",
@@ -13409,7 +13428,8 @@
       "Microsoft.AspNetCore.Cors >= 2.1.1",
       "Microsoft.NETCore.App >= 2.0.0",
       "Microsoft.VisualStudio.Web.CodeGeneration.Design >= 2.0.3",
-      "Swashbuckle.AspNetCore >= 3.0.0"
+      "Swashbuckle.AspNetCore >= 3.0.0",
+      "System.Device.Location.Portable >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -13473,6 +13493,10 @@
           "Swashbuckle.AspNetCore": {
             "target": "Package",
             "version": "[3.0.0, )"
+          },
+          "System.Device.Location.Portable": {
+            "target": "Package",
+            "version": "[1.0.0, )"
           }
         },
         "imports": [
@@ -13482,5 +13506,17 @@
         "warn": true
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'System.Device.Location.Portable 1.0.0' was restored using '.NETFramework,Version=v4.6.1' instead of the project target framework '.NETCoreApp,Version=v2.0'. This package may not be fully compatible with your project.",
+      "libraryId": "System.Device.Location.Portable",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v2.0"
+      ]
+    }
+  ]
 }

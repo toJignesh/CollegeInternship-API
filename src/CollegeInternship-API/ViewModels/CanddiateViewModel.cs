@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CollegeInternship_API.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CollegeInternship_API.ViewModels
 {
-    public class CanddiateViewModel
+    public class CandidateViewModel
     {
     public int Id { get; set; }
 
@@ -33,5 +34,8 @@ namespace CollegeInternship_API.ViewModels
     public int Status { get; set; }
 
     public int RankBySkill { get; set; }
-}
+
+        public double DistanceFromJob { get; set; }
+        public IEnumerable<CandidateSkill> CandidateSkills { get; set; }
+    }
 }
