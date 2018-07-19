@@ -13,5 +13,8 @@ namespace CollegeInternship_API.Models
         public int SkillId { get; set; }
         public Skill Skill { get; set; }
 
+        // temp solution for the skill name
+        public string SkillName { get; set; }
+
     }
 }

@@ -145,7 +145,7 @@ namespace CollegeInternship_API.Controllers
             List<Candidate> result = await this.context.Candidates
                 .Include(c => c.CandidateSkills)
                 //.ThenInclude(cs => cs.Skill)
-                //.Where(c => c.CandidateSkills.Any(cs => job.Description.Contains(cs.SkillId)))
+                .Where(c => c.CandidateSkills.Any(cs => job.Description.ToLower().Contains(cs.SkillName.ToLower())))
                 .ToListAsync();
             List<CandidateViewModel> output = new List<CandidateViewModel>();
             foreach (Candidate c in result)
