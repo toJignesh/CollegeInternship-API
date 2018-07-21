@@ -7,6 +7,9 @@ using System.Linq;
 using System.Collections.Generic;
 using CollegeInternship_API.ViewModels;
 using System.Device.Location;
+using System;
+using RestSharp;
+using Newtonsoft.Json;
 
 namespace CollegeInternship_API.Controllers
 {
@@ -38,7 +41,7 @@ namespace CollegeInternship_API.Controllers
 
             int[] jobSkills = job.JobSkills.Select(s => s.SkillId).ToArray();
 
-
+            #region linq-tries
             ////var q = this.context.Candidates
             ////            .Include(c=>c.CandidateSkills)
             ////            .Join(
@@ -69,6 +72,7 @@ namespace CollegeInternship_API.Controllers
 
 
             //return Ok(await x.ToListAsync());
+            #endregion linq-tries
 
             List<Candidate> result = await this.context.Candidates
                 .Include(c => c.CandidateSkills)
@@ -91,6 +95,29 @@ namespace CollegeInternship_API.Controllers
 
                 output.Add(cvm);
             }
+
+            if (output.Count > 0)
+            {
+                GoogleDistanceMatrixResponse googleDistances = FindDistanceFromJob(job.PostalCode, output.Select(o => o.PostalCode).ToArray());
+
+
+
+                if (googleDistances.status == "OK")
+                {
+                    for (int index = 0; index < output.Count; index++)
+                    {
+                        if (googleDistances.rows[0].elements[index].status == "OK")
+                        {
+                            output[index].DistanceFromJob = Convert.ToDouble(googleDistances.rows[0]
+                                                                                            .elements[index]
+                                                                                            .distance
+                                                                                            .text
+                                                                                            .Replace(" km", ""));
+                        }
+                    }
+                }
+            }
+
             return Ok(output);
 
 
@@ -108,8 +135,9 @@ namespace CollegeInternship_API.Controllers
                 return NotFound();
             }
 
-            int[] jobSkills = job.JobSkills.Select(s => s.SkillId).ToArray();
+            string[] jobSkills = job.JobSkills.Select(s => s.SkillName).ToArray();
 
+            #region linq-tries
 
             ////var q = this.context.Candidates
             ////            .Include(c=>c.CandidateSkills)
@@ -142,10 +170,12 @@ namespace CollegeInternship_API.Controllers
 
             //return Ok(await x.ToListAsync());
 
+            #endregion linq-tries
+
             List<Candidate> result = await this.context.Candidates
-                .Include(c => c.CandidateSkills)
                 //.ThenInclude(cs => cs.Skill)
-                .Where(c => c.CandidateSkills.Any(cs => job.Description.ToLower().Contains(cs.SkillName.ToLower())))
+                .Where(c => jobSkills.Any(js=>  c.Description.ToLower().Contains(js.ToLower())))
+                .Include(c => c.CandidateSkills)
                 .ToListAsync();
             List<CandidateViewModel> output = new List<CandidateViewModel>();
             foreach (Candidate c in result)
@@ -157,15 +187,50 @@ namespace CollegeInternship_API.Controllers
                     LastName = c.LastName,
                     PostalCode = c.PostalCode,
                     City = c.City,
-                    CandidateSkills = c.CandidateSkills,
-                    DistanceFromJob = DistanceBetweenPlaces(job.Latitude, job.Longitude, c.Latitude, c.Longitude)
+                    CandidateSkills = c.CandidateSkills
+                    //DistanceFromJob = DistanceBetweenPlaces(job.Latitude, job.Longitude, c.Latitude, c.Longitude)
                 };
 
                 output.Add(cvm);
             }
+
+            if (output.Count > 0)
+            {
+                GoogleDistanceMatrixResponse googleDistances = FindDistanceFromJob(job.PostalCode, output.Select(o => o.PostalCode).ToArray());
+
+
+
+                if (googleDistances.status == "OK")
+                {
+                    for (int index = 0; index < output.Count; index++)
+                    {
+                        if (googleDistances.rows[0].elements[index].status == "OK")
+                        {
+                            output[index].DistanceFromJob = Convert.ToDouble(googleDistances.rows[0]
+                                                                                            .elements[index]
+                                                                                            .distance
+                                                                                            .text
+                                                                                            .Replace(" km", ""));
+                        }
+                    }
+                }
+            }
             return Ok(output);
 
 
+        }
+
+        private GoogleDistanceMatrixResponse FindDistanceFromJob(string origin, string[] destinations)
+        {
+            string dest = String.Join("|", destinations);
+
+            var client = new RestClient("https://maps.googleapis.com");
+
+            var request = new RestRequest($"maps/api/distancematrix/json?units=metric&origins={origin}&destinations={dest}&key=AIzaSyBwAzTe6aotBybr98zmCqIxBIvhQ12e6rk", Method.GET);
+
+            IRestResponse response = client.Execute(request);
+            var content = response.Content; // raw content as string
+            return JsonConvert.DeserializeObject<GoogleDistanceMatrixResponse>(content);
         }
 
         private double DistanceBetweenPlaces(double lat1, double lon1, double lat2, double lon2)
