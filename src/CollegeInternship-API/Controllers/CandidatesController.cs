@@ -90,6 +90,7 @@ namespace CollegeInternship_API.Controllers
                     PostalCode = c.PostalCode,
                     City = c.City,
                     CandidateSkills = c.CandidateSkills,
+                    Description = c.Description,
                     DistanceFromJob = DistanceBetweenPlaces(job.Latitude, job.Longitude, c.Latitude, c.Longitude)
                 };
 
@@ -187,7 +188,8 @@ namespace CollegeInternship_API.Controllers
                     LastName = c.LastName,
                     PostalCode = c.PostalCode,
                     City = c.City,
-                    CandidateSkills = c.CandidateSkills
+                    CandidateSkills = c.CandidateSkills,
+                    Description=c.Description
                     //DistanceFromJob = DistanceBetweenPlaces(job.Latitude, job.Longitude, c.Latitude, c.Longitude)
                 };
 
