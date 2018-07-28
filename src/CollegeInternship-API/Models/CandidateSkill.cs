@@ -8,6 +8,7 @@ namespace CollegeInternship_API.Models
 {
     public class CandidateSkill
     {
+        public int Id { get; set; }
         public int CandidateId { get; set; }
 
         public Candidate Candidate { get; set; }
