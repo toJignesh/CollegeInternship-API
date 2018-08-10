@@ -40,5 +40,21 @@ namespace CollegeInternship_API.Controllers
             return Ok(await this.context.Skills.Where(s => jobSkills.Contains(s.Id)).Select(s=> new { id= s.Id, name=s.Name}).ToListAsync());
         }
 
+        [HttpDelete]
+        [Route("{id}")]
+        public async Task<string> Delete(int id)
+        {
+            Job job = await this.context.Jobs.Include(j => j.JobSkills).FirstOrDefaultAsync(j => j.Id == id);
+            if(job != null)
+            {
+                this.context.Jobs.Remove(job);
+                this.context.SaveChanges();
+                return "";
+            }
+            else
+            {
+                return "Could not delete job";
+            }
+        }
     }
 }
